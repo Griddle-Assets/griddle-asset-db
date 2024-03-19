@@ -1,8 +1,6 @@
-# USD Asset Database
+# Asset Database Backend
 
 ## Development
-
-### Backend
 
 We use FastAPI for our backend. To get started, `cd` into the `backend` folder, create a virtualenv with `pipenv install`, and enter a shell using `pipenv shell`.
 
