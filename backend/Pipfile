@@ -6,6 +6,7 @@ name = "pypi"
 [packages]
 fastapi = {extras = ["all"], version = "*"}
 pydantic = "*"
+python-dotenv = "*"
 
 [dev-packages]
 

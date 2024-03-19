@@ -20,6 +20,14 @@ $ npm install
 $ npm run dev
 ```
 
+To sync OpenAPI types with the backend, make sure to have the backend running. Then:
+
+```bash
+$ npm run backend:sync
+```
+
+This populates `src/types/schema.d.ts`.
+
 ### Build
 
 ```bash

@@ -18,7 +18,8 @@
     "build:unpack": "npm run build && electron-builder --dir",
     "build:win": "npm run build && electron-builder --win",
     "build:mac": "electron-vite build && electron-builder --mac",
-    "build:linux": "electron-vite build && electron-builder --linux"
+    "build:linux": "electron-vite build && electron-builder --linux",
+    "backend:sync": "openapi-typescript http://127.0.0.1:8000/openapi.json -o ./src/types/schema.d.ts && prettier -w ./src/types/schema.d.ts"
   },
   "dependencies": {
     "@electron-toolkit/preload": "^3.0.0",
@@ -37,7 +38,9 @@
     "electron-builder": "^24.9.1",
     "electron-vite": "^2.0.0",
     "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-react": "^7.33.2",
+    "openapi-typescript": "^6.7.5",
     "prettier": "^3.2.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
