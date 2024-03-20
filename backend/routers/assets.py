@@ -1,6 +1,10 @@
-from typing import List, Annotated, Optional
-from fastapi import APIRouter, Body
-from pydantic import BaseModel, Field
+from typing import Annotated
+from fastapi import APIRouter, Body, Depends
+from sqlalchemy.orm import Session
+
+from util.crud import create_asset
+from database.connection import get_db
+from schemas.models import AssetCreate
 
 router = APIRouter(
     prefix="/assets",
@@ -9,20 +13,8 @@ router = APIRouter(
 )
 
 
-class AssetInsert(BaseModel):
-    asset_name: str = Field(
-        description="Camel-case asset name",
-        pattern="^[a-z]+([A-Z][a-z]*)*$",
-        examples=["myAsset"],
-    )
-    keywords: Optional[List[str]] = Field(
-        None,
-        description="A list of lowercase keywords that relate to this asset",
-        examples=[["kitchen", "utensils"]],
-    )
-    image_url: Optional[str] = Field(None, examples=["https://placekitten.com/400/400"])
-
-
 @router.post("/")
-async def create_asset(asset: Annotated[AssetInsert, Body(embed=True)]) -> str:
-    return "hello, " + asset.asset_name
+async def new_asset(
+    asset: Annotated[AssetCreate, Body(embed=True)], db: Session = Depends(get_db)
+) -> str:
+    create_asset(db, asset)

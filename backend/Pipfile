@@ -7,8 +7,12 @@ name = "pypi"
 fastapi = {extras = ["all"], version = "*"}
 pydantic = "*"
 python-dotenv = "*"
+boto3 = "*"
+sqlalchemy = "*"
+psycopg2 = "*"
 
 [dev-packages]
+boto3-stubs = "*"
 
 [requires]
 python_version = "3.10"
