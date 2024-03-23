@@ -6,4 +6,8 @@ module.exports = {
     '@electron-toolkit/eslint-config-ts/recommended',
     'prettier',
   ],
+
+  rules: {
+    '@typescript-eslint/explicit-function-return-type': 'off',
+  },
 };
