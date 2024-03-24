@@ -8,7 +8,7 @@ from schemas.models import Asset, AssetCreate, Version, VersionCreate
 
 router = APIRouter(
     prefix="/assets",
-    # TODO: add tags
+    tags=["assets"],
     # responses={404: {"description": "Not found"}},
 )
 
