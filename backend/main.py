@@ -10,8 +10,6 @@ models.Base.metadata.create_all(bind=engine)
 
 # TODO: implement alembic to manage migrations
 
-
 app = FastAPI()
 
-
-app.include_router(assets_router)
+app.include_router(assets_router, prefix="/api/v1")

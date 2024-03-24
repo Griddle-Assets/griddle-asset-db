@@ -42,6 +42,7 @@
     "eslint": "^8.56.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-react": "^7.33.2",
+    "openapi-fetch": "^0.9.3",
     "openapi-typescript": "^6.7.5",
     "postcss": "^8.4.38",
     "prettier": "^3.2.4",

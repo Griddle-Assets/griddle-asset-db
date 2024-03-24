@@ -4,23 +4,23 @@
  */
 
 export interface paths {
-  '/assets/': {
+  '/api/v1/assets/': {
     /** Get Assets */
-    get: operations['get_assets_assets__get'];
+    get: operations['get_assets_api_v1_assets__get'];
     /** New Asset */
-    post: operations['new_asset_assets__post'];
+    post: operations['new_asset_api_v1_assets__post'];
   };
-  '/assets/{uuid}': {
+  '/api/v1/assets/{uuid}': {
     /** New Asset */
-    get: operations['new_asset_assets__uuid__get'];
+    get: operations['new_asset_api_v1_assets__uuid__get'];
     /** Put Asset */
-    put: operations['put_asset_assets__uuid__put'];
+    put: operations['put_asset_api_v1_assets__uuid__put'];
   };
-  '/assets/{uuid}/versions': {
+  '/api/v1/assets/{uuid}/versions': {
     /** Get Asset Versions */
-    get: operations['get_asset_versions_assets__uuid__versions_get'];
+    get: operations['get_asset_versions_api_v1_assets__uuid__versions_get'];
     /** New Asset Version */
-    post: operations['new_asset_version_assets__uuid__versions_post'];
+    post: operations['new_asset_version_api_v1_assets__uuid__versions_post'];
   };
 }
 
@@ -54,8 +54,8 @@ export interface components {
       /** Image Url */
       image_url: string | null;
     };
-    /** Body_new_asset_assets__post */
-    Body_new_asset_assets__post: {
+    /** Body_new_asset_api_v1_assets__post */
+    Body_new_asset_api_v1_assets__post: {
       asset: components['schemas']['AssetCreate'];
     };
     /** HTTPValidationError */
@@ -109,7 +109,7 @@ export type external = Record<string, never>;
 
 export interface operations {
   /** Get Assets */
-  get_assets_assets__get: {
+  get_assets_api_v1_assets__get: {
     parameters: {
       query?: {
         search?: string | null;
@@ -134,10 +134,10 @@ export interface operations {
     };
   };
   /** New Asset */
-  new_asset_assets__post: {
+  new_asset_api_v1_assets__post: {
     requestBody: {
       content: {
-        'application/json': components['schemas']['Body_new_asset_assets__post'];
+        'application/json': components['schemas']['Body_new_asset_api_v1_assets__post'];
       };
     };
     responses: {
@@ -156,7 +156,7 @@ export interface operations {
     };
   };
   /** New Asset */
-  new_asset_assets__uuid__get: {
+  new_asset_api_v1_assets__uuid__get: {
     parameters: {
       path: {
         uuid: string;
@@ -178,7 +178,7 @@ export interface operations {
     };
   };
   /** Put Asset */
-  put_asset_assets__uuid__put: {
+  put_asset_api_v1_assets__uuid__put: {
     parameters: {
       path: {
         uuid: string;
@@ -200,7 +200,7 @@ export interface operations {
     };
   };
   /** Get Asset Versions */
-  get_asset_versions_assets__uuid__versions_get: {
+  get_asset_versions_api_v1_assets__uuid__versions_get: {
     parameters: {
       query?: {
         sort?: 'asc' | 'desc';
@@ -226,7 +226,7 @@ export interface operations {
     };
   };
   /** New Asset Version */
-  new_asset_version_assets__uuid__versions_post: {
+  new_asset_version_api_v1_assets__uuid__versions_post: {
     parameters: {
       path: {
         uuid: string;
