@@ -28,11 +28,11 @@ class VersionBase(BaseModel):
     file_key: str
 
 
-class VersionCreate(AssetBase):
+class VersionCreate(VersionBase):
     pass
 
 
-class Version(AssetBase):
+class Version(VersionBase):
     asset: "Asset"
 
     class Config:
