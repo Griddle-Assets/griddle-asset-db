@@ -13,7 +13,13 @@ router = APIRouter(
 )
 
 
-@router.get("/")
+@router.get(
+    "/",
+    summary="Get a list of assets",
+    description="""Used for fetching a (paginated) list of assets stored in the database.
+
+Allows searching by arbitrary strings, sorting by date or name, adding keyword filters, and adding offset for pagination.""",
+)
 async def get_assets(
     search: str | None = None,
     keywords: str | None = None,
@@ -31,7 +37,11 @@ async def get_assets(
     ]
 
 
-@router.post("/")
+@router.post(
+    "/",
+    summary="Create a new asset, not including initial version",
+    description="Creating a new asset in the database. Does not include initial version -- followed up with POST to `/assets/{uuid}` to upload an initial version.",
+)
 async def new_asset(
     asset: Annotated[AssetCreate, Body(embed=True)], db: Session = Depends(get_db)
 ):
@@ -39,7 +49,11 @@ async def new_asset(
 
 
 # TODO: add relatedAssets
-@router.get("/{uuid}")
+@router.get(
+    "/{uuid}",
+    summary="Get info about a specific asset",
+    description="Based on `uuid`, fetches information on a specific asset.",
+)
 async def new_asset(uuid: str, db: Session = Depends(get_db)) -> Asset:
     return Asset(
         asset_name="testAsset",
@@ -49,12 +63,12 @@ async def new_asset(uuid: str, db: Session = Depends(get_db)) -> Asset:
     )
 
 
-@router.put("/{uuid}")
+@router.put("/{uuid}", summary="Update asset metadata")
 async def put_asset(uuid: str, db: Session = Depends(get_db)):
     pass
 
 
-@router.get("/{uuid}/versions")
+@router.get("/{uuid}/versions", summary="Get a list of versions for a given asset")
 async def get_asset_versions(
     uuid: str,
     sort: Literal["asc", "desc"] = "desc",
@@ -77,7 +91,7 @@ async def get_asset_versions(
     ]
 
 
-@router.post("/{uuid}/versions")
+@router.post("/{uuid}/versions", summary="Upload a new version for a given asset")
 async def new_asset_version(
     uuid: str,
     version: VersionCreate,

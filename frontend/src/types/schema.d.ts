@@ -5,21 +5,32 @@
 
 export interface paths {
   '/api/v1/assets/': {
-    /** Get Assets */
+    /**
+     * Get a list of assets
+     * @description Used for fetching a (paginated) list of assets stored in the database.
+     *
+     * Allows searching by arbitrary strings, sorting by date or name, adding keyword filters, and adding offset for pagination.
+     */
     get: operations['get_assets_api_v1_assets__get'];
-    /** New Asset */
+    /**
+     * Create a new asset, not including initial version
+     * @description Creating a new asset in the database. Does not include initial version -- followed up with POST to `/assets/{uuid}` to upload an initial version.
+     */
     post: operations['new_asset_api_v1_assets__post'];
   };
   '/api/v1/assets/{uuid}': {
-    /** New Asset */
+    /**
+     * Get info about a specific asset
+     * @description Based on `uuid`, fetches information on a specific asset.
+     */
     get: operations['new_asset_api_v1_assets__uuid__get'];
-    /** Put Asset */
+    /** Update asset metadata */
     put: operations['put_asset_api_v1_assets__uuid__put'];
   };
   '/api/v1/assets/{uuid}/versions': {
-    /** Get Asset Versions */
+    /** Get a list of versions for a given asset */
     get: operations['get_asset_versions_api_v1_assets__uuid__versions_get'];
-    /** New Asset Version */
+    /** Upload a new version for a given asset */
     post: operations['new_asset_version_api_v1_assets__uuid__versions_post'];
   };
 }
@@ -108,7 +119,12 @@ export type $defs = Record<string, never>;
 export type external = Record<string, never>;
 
 export interface operations {
-  /** Get Assets */
+  /**
+   * Get a list of assets
+   * @description Used for fetching a (paginated) list of assets stored in the database.
+   *
+   * Allows searching by arbitrary strings, sorting by date or name, adding keyword filters, and adding offset for pagination.
+   */
   get_assets_api_v1_assets__get: {
     parameters: {
       query?: {
@@ -133,7 +149,10 @@ export interface operations {
       };
     };
   };
-  /** New Asset */
+  /**
+   * Create a new asset, not including initial version
+   * @description Creating a new asset in the database. Does not include initial version -- followed up with POST to `/assets/{uuid}` to upload an initial version.
+   */
   new_asset_api_v1_assets__post: {
     requestBody: {
       content: {
@@ -155,7 +174,10 @@ export interface operations {
       };
     };
   };
-  /** New Asset */
+  /**
+   * Get info about a specific asset
+   * @description Based on `uuid`, fetches information on a specific asset.
+   */
   new_asset_api_v1_assets__uuid__get: {
     parameters: {
       path: {
@@ -177,7 +199,7 @@ export interface operations {
       };
     };
   };
-  /** Put Asset */
+  /** Update asset metadata */
   put_asset_api_v1_assets__uuid__put: {
     parameters: {
       path: {
@@ -199,7 +221,7 @@ export interface operations {
       };
     };
   };
-  /** Get Asset Versions */
+  /** Get a list of versions for a given asset */
   get_asset_versions_api_v1_assets__uuid__versions_get: {
     parameters: {
       query?: {
@@ -225,7 +247,7 @@ export interface operations {
       };
     };
   };
-  /** New Asset Version */
+  /** Upload a new version for a given asset */
   new_asset_version_api_v1_assets__uuid__versions_post: {
     parameters: {
       path: {
