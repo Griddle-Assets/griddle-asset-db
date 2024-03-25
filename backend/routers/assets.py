@@ -20,7 +20,7 @@ test_asset = Asset(
     author_pennkey="benfranklin",
     id=test_uuid,
     image_url="http://placekitten.com/400/400",
-    keywords="",
+    keywords="kitchen;utensil",
 )
 test_version = Version(
     author_pennkey="benfranklin",

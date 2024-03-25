@@ -10,6 +10,7 @@ python-dotenv = "*"
 boto3 = "*"
 sqlalchemy = "*"
 psycopg2 = "*"
+sqladmin = "*"
 
 [dev-packages]
 boto3-stubs = "*"

@@ -1,14 +1,19 @@
 from typing import List
+from uuid import uuid4
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from database.connection import Base
 
 
+def random_uuid():
+    return str(uuid4())
+
+
 class Asset(Base):
     __tablename__ = "assets"
 
-    id: Mapped[str] = mapped_column(primary_key=True)
+    id: Mapped[str] = mapped_column(primary_key=True, default=random_uuid)
     asset_name: Mapped[str] = mapped_column()
     author_pennkey: Mapped[str] = mapped_column()
     keywords: Mapped[str] = mapped_column()
