@@ -65,6 +65,15 @@ export interface components {
     Body_new_asset_api_v1_assets__post: {
       asset: components['schemas']['AssetCreate'];
     };
+    /** Body_new_asset_version_api_v1_assets__uuid__versions_post */
+    Body_new_asset_version_api_v1_assets__uuid__versions_post: {
+      version: components['schemas']['VersionCreate'];
+      /**
+       * File
+       * Format: binary
+       */
+      file: string;
+    };
     /** Body_put_asset_api_v1_assets__uuid__put */
     Body_put_asset_api_v1_assets__uuid__put: {
       asset: components['schemas']['AssetCreate'];
@@ -87,19 +96,15 @@ export interface components {
     Version: {
       /** Asset Id */
       asset_id: string;
-      /** File Key */
-      file_key: string;
       /** Semver */
       semver: string;
       /** Author Pennkey */
       author_pennkey: string;
+      /** File Key */
+      file_key: string;
     };
     /** VersionCreate */
     VersionCreate: {
-      /** Asset Id */
-      asset_id: string;
-      /** File Key */
-      file_key: string;
       /**
        * Is Major
        * @default false
@@ -281,7 +286,7 @@ export interface operations {
     };
     requestBody: {
       content: {
-        'application/json': components['schemas']['VersionCreate'];
+        'multipart/form-data': components['schemas']['Body_new_asset_version_api_v1_assets__uuid__versions_post'];
       };
     };
     responses: {

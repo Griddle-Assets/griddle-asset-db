@@ -1,5 +1,5 @@
 from typing import Annotated, List, Literal
-from fastapi import APIRouter, Body, Depends, HTTPException
+from fastapi import APIRouter, Body, Depends, HTTPException, UploadFile
 from sqlalchemy.orm import Session
 
 from util.crud import create_asset
@@ -97,8 +97,9 @@ async def get_asset_versions(
 async def new_asset_version(
     uuid: str,
     version: VersionCreate,
+    file: UploadFile,
     db: Session = Depends(get_db),
 ):
     if uuid != test_uuid:
         raise HTTPException(status_code=404, detail="Asset not found")
-    pass
+    print(str(file))

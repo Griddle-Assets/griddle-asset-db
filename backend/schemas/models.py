@@ -21,8 +21,7 @@ class Asset(AssetBase):
 
 
 class VersionBase(BaseModel):
-    asset_id: str
-    file_key: str
+    pass
 
 
 class VersionCreate(VersionBase):
@@ -31,8 +30,10 @@ class VersionCreate(VersionBase):
 
 
 class Version(VersionBase):
+    asset_id: str
     semver: str
     author_pennkey: str
+    file_key: str
 
     class Config:
         from_attributes = True
