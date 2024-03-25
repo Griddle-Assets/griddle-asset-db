@@ -11,13 +11,11 @@ class AssetAdmin(ModelView, model=Asset):
         Asset.asset_name,
         Asset.author_pennkey,
         Asset.keywords,
-        Asset.versions,
     ]
 
 
 class VersionAdmin(ModelView, model=Version):
     column_list = [
-        Version.asset,
         Version.semver,
         Version.author_pennkey,
         Version.file_key,

@@ -19,7 +19,7 @@ class Asset(Base):
     keywords: Mapped[str] = mapped_column()
     image_url: Mapped[str] = mapped_column()
 
-    versions: Mapped[List["Version"]] = relationship(back_populates="asset")
+    versions: Mapped[list["Version"]] = relationship(back_populates="asset")
 
 
 class Version(Base):
