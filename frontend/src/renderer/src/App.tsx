@@ -3,8 +3,8 @@ import NewAssetForm from './components/NewAssetForm';
 
 interface MyFormData {
   assetName: string;
-  keywords: string[];
-  assetFiles: FileList;
+  keywords: string;
+  assetFiles: File[];
   thumbnailFile: File | null;
 }
 
