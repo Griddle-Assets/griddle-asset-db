@@ -1,8 +1,8 @@
-from typing import List, Literal
+from typing import Literal, Sequence
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
-from util.crud import create_asset
+from util.crud import create_asset, read_assets
 from database.connection import get_db
 from schemas.models import Asset, AssetCreate, Version, VersionCreate
 
@@ -37,14 +37,16 @@ test_version = Version(
 
 Allows searching by arbitrary strings, sorting by date or name, adding keyword filters, and adding offset for pagination.""",
 )
-async def get_assets(
+def get_assets(
     search: str | None = None,
     keywords: str | None = None,
     sort: Literal["date", "name"] = "date",
     offset: int = 0,
     db: Session = Depends(get_db),
-) -> List[Asset]:
-    return [test_asset]
+) -> Sequence[Asset]:
+    # TODO: add filters and search!
+    assets = read_assets(db, search=(search if search != "" else None), offset=offset)
+    return assets
 
 
 @router.post(
@@ -52,8 +54,8 @@ async def get_assets(
     summary="Create a new asset, not including initial version",
     description="Creating a new asset in the database. Does not include initial version -- followed up with POST to `/assets/{uuid}` to upload an initial version.",
 )
-async def new_asset(asset: AssetCreate, db: Session = Depends(get_db)):
-    create_asset(db, asset, "benfranklin")
+def new_asset(asset: AssetCreate, db: Session = Depends(get_db)) -> Asset:
+    return create_asset(db, asset, "benfranklin")
 
 
 # TODO: add relatedAssets
@@ -85,7 +87,7 @@ async def get_asset_versions(
     sort: Literal["asc", "desc"] = "desc",
     offset: int = 0,
     db: Session = Depends(get_db),
-) -> List[Version]:
+) -> Sequence[Version]:
     if uuid != test_uuid:
         raise HTTPException(status_code=404, detail="Asset not found")
     return [test_version]
