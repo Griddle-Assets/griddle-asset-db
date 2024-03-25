@@ -3,17 +3,11 @@ import fetchClient from './lib/fetch-client';
 import Metadata from './components/Metadata';
 
 import { useState } from 'react';
-
-interface Asset {
-  asset_name: string;
-  keywords: string;
-  image_url: string | null;
-  id: string;
-  author_pennkey: string;
-}
+import { Asset } from './types';
 
 function App(): JSX.Element {
   const [assets, setAssets] = useState<Asset[]>([]);
+  const [selectedAsset, setSelectedAsset] = useState<Asset | null>(null);
 
   const ipcHandle = (): void => window.electron.ipcRenderer.send('ping');
   const fetchAssets = async () => {
@@ -23,6 +17,10 @@ function App(): JSX.Element {
     } else {
       setAssets(data);
     }
+  };
+
+  const handleAssetClick = (asset: Asset) => {
+    setSelectedAsset(asset);
   };
 
   return (
@@ -48,12 +46,18 @@ function App(): JSX.Element {
         <ul>
             {assets.map((asset, index) => (
               <li key={index}>
-                <div>{asset.asset_name}</div>
+                <button
+                  type="button"
+                  className="px-6 py-2 bg-blue-500 text-white font-medium rounded-full mb-4 hover:bg-blue-600"
+                  onClick={() => handleAssetClick(asset)} // Call handleAssetClick with the selected asset
+                >{asset.asset_name}</button>
               </li>
             ))}
           </ul>
         </div>
-      <Metadata></Metadata>
+      <div className="w-1/4">
+        <Metadata asset={selectedAsset} />
+      </div>
     </div>
       
     </>
