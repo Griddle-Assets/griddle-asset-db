@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function AssetForm(): JSX.Element {
+function OldAssetForm(): JSX.Element {
   const [assetFiles, setAssetFiles] = useState<File[]>([]);
   const [thumbnailFile, setThumbnailFile] = useState<File | null>(null);
 
@@ -191,5 +191,5 @@ function AssetForm(): JSX.Element {
   );
 }
 
-export default AssetForm;
+export default OldAssetForm;
 
