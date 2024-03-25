@@ -23,7 +23,7 @@ export interface paths {
      * Get info about a specific asset
      * @description Based on `uuid`, fetches information on a specific asset.
      */
-    get: operations['new_asset_api_v1_assets__uuid__get'];
+    get: operations['get_asset_info_api_v1_assets__uuid__get'];
     /** Update asset metadata */
     put: operations['put_asset_api_v1_assets__uuid__put'];
   };
@@ -43,23 +43,19 @@ export interface components {
     Asset: {
       /** Asset Name */
       asset_name: string;
-      /** Author Pennkey */
-      author_pennkey: string;
       /** Keywords */
       keywords: string;
       /** Image Url */
       image_url: string | null;
       /** Id */
       id: string;
-      /** Versions */
-      versions: components['schemas']['Version'][];
+      /** Author Pennkey */
+      author_pennkey: string;
     };
     /** AssetCreate */
     AssetCreate: {
       /** Asset Name */
       asset_name: string;
-      /** Author Pennkey */
-      author_pennkey: string;
       /** Keywords */
       keywords: string;
       /** Image Url */
@@ -67,6 +63,10 @@ export interface components {
     };
     /** Body_new_asset_api_v1_assets__post */
     Body_new_asset_api_v1_assets__post: {
+      asset: components['schemas']['AssetCreate'];
+    };
+    /** Body_put_asset_api_v1_assets__uuid__put */
+    Body_put_asset_api_v1_assets__uuid__put: {
       asset: components['schemas']['AssetCreate'];
     };
     /** HTTPValidationError */
@@ -85,26 +85,26 @@ export interface components {
     };
     /** Version */
     Version: {
-      /** Author Pennkey */
-      author_pennkey: string;
       /** Asset Id */
       asset_id: string;
-      /** Semver */
-      semver: string;
       /** File Key */
       file_key: string;
-      asset: components['schemas']['Asset'];
+      /** Semver */
+      semver: string;
+      /** Author Pennkey */
+      author_pennkey: string;
     };
     /** VersionCreate */
     VersionCreate: {
-      /** Author Pennkey */
-      author_pennkey: string;
       /** Asset Id */
       asset_id: string;
-      /** Semver */
-      semver: string;
       /** File Key */
       file_key: string;
+      /**
+       * Is Major
+       * @default false
+       */
+      is_major?: boolean;
     };
   };
   responses: never;
@@ -141,6 +141,10 @@ export interface operations {
           'application/json': components['schemas']['Asset'][];
         };
       };
+      /** @description Not found */
+      404: {
+        content: never;
+      };
       /** @description Validation Error */
       422: {
         content: {
@@ -166,6 +170,10 @@ export interface operations {
           'application/json': unknown;
         };
       };
+      /** @description Not found */
+      404: {
+        content: never;
+      };
       /** @description Validation Error */
       422: {
         content: {
@@ -178,7 +186,7 @@ export interface operations {
    * Get info about a specific asset
    * @description Based on `uuid`, fetches information on a specific asset.
    */
-  new_asset_api_v1_assets__uuid__get: {
+  get_asset_info_api_v1_assets__uuid__get: {
     parameters: {
       path: {
         uuid: string;
@@ -190,6 +198,10 @@ export interface operations {
         content: {
           'application/json': components['schemas']['Asset'];
         };
+      };
+      /** @description Not found */
+      404: {
+        content: never;
       };
       /** @description Validation Error */
       422: {
@@ -206,12 +218,21 @@ export interface operations {
         uuid: string;
       };
     };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['Body_put_asset_api_v1_assets__uuid__put'];
+      };
+    };
     responses: {
       /** @description Successful Response */
       200: {
         content: {
           'application/json': unknown;
         };
+      };
+      /** @description Not found */
+      404: {
+        content: never;
       };
       /** @description Validation Error */
       422: {
@@ -236,8 +257,12 @@ export interface operations {
       /** @description Successful Response */
       200: {
         content: {
-          'application/json': components['schemas']['Version'];
+          'application/json': components['schemas']['Version'][];
         };
+      };
+      /** @description Not found */
+      404: {
+        content: never;
       };
       /** @description Validation Error */
       422: {
@@ -265,6 +290,10 @@ export interface operations {
         content: {
           'application/json': unknown;
         };
+      };
+      /** @description Not found */
+      404: {
+        content: never;
       };
       /** @description Validation Error */
       422: {

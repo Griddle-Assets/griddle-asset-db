@@ -1,5 +1,5 @@
 from typing import Annotated, List, Literal
-from fastapi import APIRouter, Body, Depends
+from fastapi import APIRouter, Body, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from util.crud import create_asset
@@ -9,7 +9,24 @@ from schemas.models import Asset, AssetCreate, Version, VersionCreate
 router = APIRouter(
     prefix="/assets",
     tags=["assets"],
-    # responses={404: {"description": "Not found"}},
+    responses={404: {"description": "Not found"}},
+)
+
+# TODO: kill this test stuff
+
+test_uuid = "5aafd32f-b977-4c04-b816-5780576eace0"
+test_asset = Asset(
+    asset_name="testAsset",
+    author_pennkey="benfranklin",
+    id=test_uuid,
+    image_url="http://placekitten.com/400/400",
+    keywords="",
+)
+test_version = Version(
+    author_pennkey="benfranklin",
+    asset_id=test_uuid,
+    semver="0.1",
+    file_key="123456",
 )
 
 
@@ -27,14 +44,7 @@ async def get_assets(
     offset: int = 0,
     db: Session = Depends(get_db),
 ) -> List[Asset]:
-    return [
-        Asset(
-            asset_name="testAsset",
-            author_pennkey="benfranklin",
-            id="5aafd32f-b977-4c04-b816-5780576eace0",
-            image_url="http://placekitten.com/400/400",
-        )
-    ]
+    return [test_asset]
 
 
 @router.post(
@@ -45,7 +55,7 @@ async def get_assets(
 async def new_asset(
     asset: Annotated[AssetCreate, Body(embed=True)], db: Session = Depends(get_db)
 ):
-    create_asset(db, asset)
+    create_asset(db, asset, "benfranklin")
 
 
 # TODO: add relatedAssets
@@ -54,17 +64,20 @@ async def new_asset(
     summary="Get info about a specific asset",
     description="Based on `uuid`, fetches information on a specific asset.",
 )
-async def new_asset(uuid: str, db: Session = Depends(get_db)) -> Asset:
-    return Asset(
-        asset_name="testAsset",
-        author_pennkey="benfranklin",
-        id=uuid,
-        image_url="http://placekitten.com/400/400",
-    )
+async def get_asset_info(uuid: str, db: Session = Depends(get_db)) -> Asset:
+    if uuid != test_uuid:
+        raise HTTPException(status_code=404, detail="Asset not found")
+    return test_asset
 
 
 @router.put("/{uuid}", summary="Update asset metadata")
-async def put_asset(uuid: str, db: Session = Depends(get_db)):
+async def put_asset(
+    uuid: str,
+    asset: Annotated[AssetCreate, Body(embed=True)],
+    db: Session = Depends(get_db),
+):
+    if uuid != test_uuid:
+        raise HTTPException(status_code=404, detail="Asset not found")
     pass
 
 
@@ -74,21 +87,10 @@ async def get_asset_versions(
     sort: Literal["asc", "desc"] = "desc",
     offset: int = 0,
     db: Session = Depends(get_db),
-) -> Version:
-    return [
-        Version(
-            author_pennkey="benfranklin",
-            asset=Asset(
-                asset_name="testAsset",
-                author_pennkey="benfranklin",
-                id=uuid,
-                image_url="http://placekitten.com/400/400",
-            ),
-            asset_id=uuid,
-            semver="0.1",
-            file_key="123456",
-        )
-    ]
+) -> List[Version]:
+    if uuid != test_uuid:
+        raise HTTPException(status_code=404, detail="Asset not found")
+    return [test_version]
 
 
 @router.post("/{uuid}/versions", summary="Upload a new version for a given asset")
@@ -97,4 +99,6 @@ async def new_asset_version(
     version: VersionCreate,
     db: Session = Depends(get_db),
 ):
+    if uuid != test_uuid:
+        raise HTTPException(status_code=404, detail="Asset not found")
     pass
