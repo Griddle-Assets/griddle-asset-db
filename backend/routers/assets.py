@@ -1,5 +1,5 @@
-from typing import Annotated, List, Literal
-from fastapi import APIRouter, Body, Depends, HTTPException
+from typing import List, Literal
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from util.crud import create_asset
@@ -52,9 +52,7 @@ async def get_assets(
     summary="Create a new asset, not including initial version",
     description="Creating a new asset in the database. Does not include initial version -- followed up with POST to `/assets/{uuid}` to upload an initial version.",
 )
-async def new_asset(
-    asset: Annotated[AssetCreate, Body(embed=True)], db: Session = Depends(get_db)
-):
+async def new_asset(asset: AssetCreate, db: Session = Depends(get_db)):
     create_asset(db, asset, "benfranklin")
 
 
@@ -73,7 +71,7 @@ async def get_asset_info(uuid: str, db: Session = Depends(get_db)) -> Asset:
 @router.put("/{uuid}", summary="Update asset metadata")
 async def put_asset(
     uuid: str,
-    asset: Annotated[AssetCreate, Body(embed=True)],
+    asset: AssetCreate,
     db: Session = Depends(get_db),
 ):
     if uuid != test_uuid:
