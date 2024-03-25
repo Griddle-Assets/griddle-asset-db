@@ -4,7 +4,6 @@ from pydantic import BaseModel
 
 class AssetBase(BaseModel):
     asset_name: str
-    author_pennkey: str
     keywords: str
     image_url: Optional[str]
 
@@ -15,25 +14,25 @@ class AssetCreate(AssetBase):
 
 class Asset(AssetBase):
     id: str
-    versions: List["Version"]
+    author_pennkey: str
 
     class Config:
         from_attributes = True
 
 
 class VersionBase(BaseModel):
-    author_pennkey: str
     asset_id: str
-    semver: str
     file_key: str
 
 
 class VersionCreate(VersionBase):
+    is_major: bool = False
     pass
 
 
 class Version(VersionBase):
-    asset: "Asset"
+    semver: str
+    author_pennkey: str
 
     class Config:
         from_attributes = True
