@@ -14,11 +14,11 @@ def get_asset(db: Session, asset_id: str):
 # TODO: get_assets
 
 
-def create_asset(db: Session, asset: AssetCreate):
+def create_asset(db: Session, asset: AssetCreate, author_pennkey: str):
     db_asset = Asset(
         id=uuid4(),
         asset_name=asset.asset_name,
-        author_pennkey=asset.author_pennkey,
+        author_pennkey=author_pennkey,
         keywords=asset.keywords,
         image_url=asset.image_url,
     )
