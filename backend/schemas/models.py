@@ -25,11 +25,6 @@ class VersionBase(BaseModel):
     file_key: str
 
 
-class VersionCreate(VersionBase):
-    is_major: bool = False
-    pass
-
-
 class Version(VersionBase):
     semver: str
     author_pennkey: str

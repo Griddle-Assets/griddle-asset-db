@@ -1,10 +1,11 @@
-from typing import Literal, Sequence
-from fastapi import APIRouter, Depends, HTTPException
+from typing import Annotated, Literal, Sequence
+from fastapi import APIRouter, Body, Depends, File, Form, HTTPException, UploadFile
 from sqlalchemy.orm import Session
 
-from util.crud import create_asset, read_assets
+from util.crud import create_asset, create_version, read_assets
 from database.connection import get_db
-from schemas.models import Asset, AssetCreate, Version, VersionCreate
+from schemas.models import Asset, AssetCreate, Version
+from util.files import save_upload_file_temp
 
 router = APIRouter(
     prefix="/assets",
@@ -96,9 +97,11 @@ async def get_asset_versions(
 @router.post("/{uuid}/versions", summary="Upload a new version for a given asset")
 async def new_asset_version(
     uuid: str,
-    version: VersionCreate,
+    file: Annotated[UploadFile, File()],
+    is_major: Annotated[bool, Form()] = False,
     db: Session = Depends(get_db),
 ):
-    if uuid != test_uuid:
-        raise HTTPException(status_code=404, detail="Asset not found")
-    pass
+    file_path = save_upload_file_temp(file)
+    if file_path is None:
+        raise HTTPException(status_code=400, detail="File uploaded incorrectly")
+    return create_version(db, uuid, file_path, is_major, "benfranklin")
