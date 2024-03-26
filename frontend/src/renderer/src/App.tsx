@@ -13,6 +13,9 @@ interface MyFormData {
   thumbnailFile: File | null;
 }
 
+// components
+import Navbar from './components/Navbar';
+
 function App(): JSX.Element {
   const [assets, setAssets] = useState<Asset[]>([]);
   const [selectedAsset, setSelectedAsset] = useState<Asset | null>(null);
@@ -34,10 +37,12 @@ function App(): JSX.Element {
   const onSubmit = (data: MyFormData) => {
     console.log('Form data:', data);
     // Handle form submission logic here
+    fetchAssets();
   };
 
   return (
     <>
+      <Navbar />
       <div className="my-6 text-4xl font-bold">Griddle</div>
       <div className="flex">
         <div className="w-2/3">
