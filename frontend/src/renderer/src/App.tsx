@@ -1,6 +1,9 @@
 import Versions from './components/Versions';
 import fetchClient from './lib/fetch-client';
 
+// components
+import Navbar from './components/Navbar';
+
 function App(): JSX.Element {
   const ipcHandle = (): void => window.electron.ipcRenderer.send('ping');
   const fetchAssets = async () => {
@@ -14,6 +17,7 @@ function App(): JSX.Element {
 
   return (
     <>
+      <Navbar />
       <div className="my-6 text-4xl font-bold">Our app here!</div>
       <button
         type="button"
