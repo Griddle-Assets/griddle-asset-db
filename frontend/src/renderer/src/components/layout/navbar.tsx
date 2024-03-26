@@ -1,6 +1,7 @@
 import { CiSearch } from 'react-icons/ci';
 
 import NavbarFilter, { AssetFilters } from './navbar-filter';
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   const handleApplyFilters = (filters: AssetFilters) => {
@@ -9,7 +10,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="navbar shadow-md border-black p-7 flex justify-between items-center">
+    <nav className="navbar shadow-md border-black p-7 flex justify-between items-center select-none">
       {/* Logo Placeholder */}
       <div className="logo">
         <a className="btn btn-ghost text-xl">Griddle</a>
@@ -18,7 +19,9 @@ const Navbar = () => {
       {/* Center Group */}
       <div className="flex-grow flex justify-center items-center gap-x-4 ">
         {/* New Asset Button */}
-        <button className="btn btn-outline">+ New Asset</button>
+        <Link className="btn btn-outline" to={'/new-asset'}>
+          + New Asset
+        </Link>
 
         {/* Search Bar */}
         <div className="form-control relative w-1/3">

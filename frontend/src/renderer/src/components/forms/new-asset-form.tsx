@@ -13,7 +13,7 @@ export interface NewAssetFormData {
 export default function NewAssetForm({
   afterSubmit,
 }: {
-  afterSubmit: SubmitHandler<NewAssetFormData>;
+  afterSubmit?: SubmitHandler<NewAssetFormData>;
 }) {
   const { register, handleSubmit } = useForm<NewAssetFormData>();
 
@@ -73,7 +73,7 @@ export default function NewAssetForm({
 
     // Combine assetFiles from state with form data
     const formDataWithFiles = { ...data, assetFiles };
-    afterSubmit(formDataWithFiles); // Call the onSubmit function provided by props
+    if (afterSubmit) afterSubmit(formDataWithFiles); // Call the onSubmit function provided by props
   };
 
   return (
