@@ -21,7 +21,6 @@ def read_assets(db: Session, search: str | None = None, offset=0):
     if search != None:
         query = query.filter(Asset.asset_name.ilike("%{}%".format(search)))
     query = query.limit(24).offset(offset)
-    print(str(query))
     return db.execute(query).scalars().all()
 
 

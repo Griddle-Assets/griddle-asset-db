@@ -1,4 +1,5 @@
 from typing import Annotated, Literal, Sequence
+from uuid import UUID
 from fastapi import APIRouter, Body, Depends, File, Form, HTTPException, UploadFile
 from sqlalchemy.orm import Session
 
@@ -15,7 +16,7 @@ router = APIRouter(
 
 # TODO: kill this test stuff
 
-test_uuid = "5aafd32f-b977-4c04-b816-5780576eace0"
+test_uuid = UUID("5aafd32f-b977-4c04-b816-5780576eace0")
 test_asset = Asset(
     asset_name="testAsset",
     author_pennkey="benfranklin",
@@ -46,8 +47,7 @@ def get_assets(
     db: Session = Depends(get_db),
 ) -> Sequence[Asset]:
     # TODO: add filters and search!
-    assets = read_assets(db, search=(search if search != "" else None), offset=offset)
-    return assets
+    return read_assets(db, search=(search if search != "" else None), offset=offset)
 
 
 @router.post(
