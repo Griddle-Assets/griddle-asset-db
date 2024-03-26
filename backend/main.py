@@ -1,3 +1,4 @@
+# NOTE: we gotta keep this as first import so other files can use `os.getenv`
 from settings import is_dev
 
 from fastapi import FastAPI
@@ -6,7 +7,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from database import models
 from database.connection import engine
 
-from routers.assets import router as assets_router
+from routers.sqladmin import config_sqladmin
+from routers.api_v1 import router as api_v1_router
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -24,4 +26,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(assets_router, prefix="/api/v1")
+if is_dev:
+    config_sqladmin(app)
+
+app.include_router(api_v1_router)

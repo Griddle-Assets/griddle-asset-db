@@ -33,6 +33,10 @@ export interface paths {
     /** Upload a new version for a given asset */
     post: operations['new_asset_version_api_v1_assets__uuid__versions_post'];
   };
+  '/api/v1/assets/{uuid}/versions/{semver}': {
+    /** Get a specific version of an asset */
+    get: operations['get_version_api_v1_assets__uuid__versions__semver__get'];
+  };
 }
 
 export type webhooks = Record<string, never>;
@@ -47,7 +51,10 @@ export interface components {
       keywords: string;
       /** Image Url */
       image_url: string | null;
-      /** Id */
+      /**
+       * Id
+       * Format: uuid
+       */
       id: string;
       /** Author Pennkey */
       author_pennkey: string;
@@ -61,13 +68,18 @@ export interface components {
       /** Image Url */
       image_url: string | null;
     };
-    /** Body_new_asset_api_v1_assets__post */
-    Body_new_asset_api_v1_assets__post: {
-      asset: components['schemas']['AssetCreate'];
-    };
-    /** Body_put_asset_api_v1_assets__uuid__put */
-    Body_put_asset_api_v1_assets__uuid__put: {
-      asset: components['schemas']['AssetCreate'];
+    /** Body_new_asset_version_api_v1_assets__uuid__versions_post */
+    Body_new_asset_version_api_v1_assets__uuid__versions_post: {
+      /**
+       * File
+       * Format: binary
+       */
+      file: string;
+      /**
+       * Is Major
+       * @default false
+       */
+      is_major?: boolean;
     };
     /** HTTPValidationError */
     HTTPValidationError: {
@@ -85,7 +97,10 @@ export interface components {
     };
     /** Version */
     Version: {
-      /** Asset Id */
+      /**
+       * Asset Id
+       * Format: uuid
+       */
       asset_id: string;
       /** File Key */
       file_key: string;
@@ -93,18 +108,6 @@ export interface components {
       semver: string;
       /** Author Pennkey */
       author_pennkey: string;
-    };
-    /** VersionCreate */
-    VersionCreate: {
-      /** Asset Id */
-      asset_id: string;
-      /** File Key */
-      file_key: string;
-      /**
-       * Is Major
-       * @default false
-       */
-      is_major?: boolean;
     };
   };
   responses: never;
@@ -160,14 +163,14 @@ export interface operations {
   new_asset_api_v1_assets__post: {
     requestBody: {
       content: {
-        'application/json': components['schemas']['Body_new_asset_api_v1_assets__post'];
+        'application/json': components['schemas']['AssetCreate'];
       };
     };
     responses: {
       /** @description Successful Response */
       200: {
         content: {
-          'application/json': unknown;
+          'application/json': components['schemas']['Asset'];
         };
       };
       /** @description Not found */
@@ -220,7 +223,7 @@ export interface operations {
     };
     requestBody: {
       content: {
-        'application/json': components['schemas']['Body_put_asset_api_v1_assets__uuid__put'];
+        'application/json': components['schemas']['AssetCreate'];
       };
     };
     responses: {
@@ -281,7 +284,7 @@ export interface operations {
     };
     requestBody: {
       content: {
-        'application/json': components['schemas']['VersionCreate'];
+        'multipart/form-data': components['schemas']['Body_new_asset_version_api_v1_assets__uuid__versions_post'];
       };
     };
     responses: {
@@ -289,6 +292,33 @@ export interface operations {
       200: {
         content: {
           'application/json': unknown;
+        };
+      };
+      /** @description Not found */
+      404: {
+        content: never;
+      };
+      /** @description Validation Error */
+      422: {
+        content: {
+          'application/json': components['schemas']['HTTPValidationError'];
+        };
+      };
+    };
+  };
+  /** Get a specific version of an asset */
+  get_version_api_v1_assets__uuid__versions__semver__get: {
+    parameters: {
+      path: {
+        uuid: string;
+        semver: string;
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        content: {
+          'application/json': components['schemas']['Version'];
         };
       };
       /** @description Not found */

@@ -58,12 +58,10 @@ export default function NewAssetForm({
     // Calling fetchClient.POST()
     const { response, error } = await fetchClient.POST('/api/v1/assets/', {
       body: {
-        asset: {
-          asset_name: data.assetName,
-          keywords: data.keywords,
-          image_url: 'http://placekitten.com/400/400', // data.thumbnailFile.path,
-          // TODO: figure out thumb uploading.. maybe base64?
-        },
+        asset_name: data.assetName,
+        keywords: data.keywords,
+        image_url: 'http://placekitten.com/400/400', // data.thumbnailFile.path,
+        // TODO: figure out thumb uploading.. maybe base64?
       },
     });
 

@@ -1,4 +1,5 @@
-from typing import List, Optional
+from typing import Optional
+from uuid import UUID
 from pydantic import BaseModel
 
 
@@ -13,7 +14,7 @@ class AssetCreate(AssetBase):
 
 
 class Asset(AssetBase):
-    id: str
+    id: UUID
     author_pennkey: str
 
     class Config:
@@ -21,13 +22,8 @@ class Asset(AssetBase):
 
 
 class VersionBase(BaseModel):
-    asset_id: str
+    asset_id: UUID
     file_key: str
-
-
-class VersionCreate(VersionBase):
-    is_major: bool = False
-    pass
 
 
 class Version(VersionBase):
