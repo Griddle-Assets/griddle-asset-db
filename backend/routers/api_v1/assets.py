@@ -46,7 +46,7 @@ def get_assets(
     offset: int = 0,
     db: Session = Depends(get_db),
 ) -> Sequence[Asset]:
-    # TODO: add filters and search!
+    # TODO: add filters and fuzzy search!
     return read_assets(db, search=(search if search != "" else None), offset=offset)
 
 
@@ -102,10 +102,11 @@ async def get_version(
     uuid: str,
     semver: str,
     db: Session = Depends(get_db),
-):
-    if uuid != test_uuid:
-        raise HTTPException(status_code=404, detail="Asset not found")
-    pass
+) -> Version:
+    # TODO
+    if uuid != test_uuid or semver != test_version.semver:
+        raise HTTPException(status_code=404, detail="Version not found")
+    return test_version
 
 
 @router.post("/{uuid}/versions", summary="Upload a new version for a given asset")
@@ -119,3 +120,6 @@ async def new_asset_version(
     if file_path is None:
         raise HTTPException(status_code=400, detail="File uploaded incorrectly")
     return create_version(db, uuid, file_path, is_major, "benfranklin")
+
+
+# TODO: get_asset_file
