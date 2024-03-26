@@ -2,7 +2,7 @@ from typing import Literal, Sequence
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
-from util.crud import create_asset, read_assets
+from util.crud import create_asset, read_assets, read_asset_info
 from database.connection import get_db
 from schemas.models import Asset, AssetCreate, Version, VersionCreate
 
@@ -65,9 +65,10 @@ def new_asset(asset: AssetCreate, db: Session = Depends(get_db)) -> Asset:
     description="Based on `uuid`, fetches information on a specific asset.",
 )
 async def get_asset_info(uuid: str, db: Session = Depends(get_db)) -> Asset:
-    if uuid != test_uuid:
+    result = read_asset_info(db, uuid)
+    if result is None:
         raise HTTPException(status_code=404, detail="Asset not found")
-    return test_asset
+    return result
 
 
 @router.put("/{uuid}", summary="Update asset metadata")
@@ -91,6 +92,16 @@ async def get_asset_versions(
     if uuid != test_uuid:
         raise HTTPException(status_code=404, detail="Asset not found")
     return [test_version]
+
+@router.get("/{uuid}/versions/{semver}", summary="Get a specific version of an asset")
+async def get_version(
+    uuid: str,
+    semver: str,
+    db: Session = Depends(get_db),
+):
+    if uuid != test_uuid:
+        raise HTTPException(status_code=404, detail="Asset not found")
+    pass
 
 
 @router.post("/{uuid}/versions", summary="Upload a new version for a given asset")

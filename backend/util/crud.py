@@ -2,7 +2,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from schemas.models import AssetCreate
-from database.models import Asset
+from database.models import Asset, Version
 
 # https://fastapi.tiangolo.com/tutorial/sql-databases/#crud-utils
 
@@ -32,9 +32,16 @@ def create_asset(db: Session, asset: AssetCreate, author_pennkey: str):
     db.refresh(db_asset)
     return db_asset
 
+def read_asset_info(db: Session, asset_id: str):
+    return db.query(Asset).filter(Asset.id == asset_id).first()
 
 # TODO: get_asset_versions
 
-# TODO: get_version
+# TODO: download asset to temp directory then return file response
+def read_version_file(db: Session, asset_id: str, semver: str):
+    file = db.query(Version).filter(Version.asset_id == asset_id, Version.semver == semver).first()
+    if file is None:
+        return None
+    return file.file_key
 
 # TODO: create_version
