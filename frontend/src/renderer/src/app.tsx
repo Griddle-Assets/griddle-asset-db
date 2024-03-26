@@ -1,10 +1,12 @@
-import Versions from './components/Versions';
-import NewAssetForm from './components/NewAssetForm';
-import fetchClient from './lib/fetch-client';
-import Metadata from './components/Metadata';
-
 import { useState } from 'react';
 import { Asset } from './types';
+
+import fetchClient from './lib/fetch-client';
+
+import Versions from './components/versions';
+import NewAssetForm from './components/forms/new-asset-form';
+import Metadata from './components/metadata';
+import Navbar from './components/layout/navbar';
 
 interface MyFormData {
   assetName: string;
@@ -12,9 +14,6 @@ interface MyFormData {
   assetFiles: File[];
   thumbnailFile: File | null;
 }
-
-// components
-import Navbar from './components/Navbar';
 
 function App(): JSX.Element {
   const [assets, setAssets] = useState<Asset[]>([]);

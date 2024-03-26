@@ -1,11 +1,8 @@
-import React, { useState } from 'react';
-
-// components
 import { CiSearch } from 'react-icons/ci';
-import { CiFilter } from 'react-icons/ci';
-import Filter from './Filter';
 
-const Navbar: React.FC = () => {
+import NavbarFilter from './navbar-filter';
+
+const Navbar = () => {
   // Function to handle the application of filters
   const handleApplyFilters = (filters) => {
     console.log('Applying filters:', filters);
@@ -35,7 +32,7 @@ const Navbar: React.FC = () => {
         </div>
 
         {/* Filter Component */}
-        <Filter onApply={handleApplyFilters} />
+        <NavbarFilter onApply={handleApplyFilters} />
       </div>
 
       {/* Placeholder for Right-Side Content */}

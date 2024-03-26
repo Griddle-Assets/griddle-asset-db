@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { CiFilter } from 'react-icons/ci';
 
-const Filter = ({ onApply }) => {
+const NavbarFilter = ({ onApply }) => {
   // States for filter criteria
   const [nameFilter, setNameFilter] = useState('');
   const [contributorFilter, setContributorFilter] = useState('');
@@ -75,4 +75,4 @@ const Filter = ({ onApply }) => {
   );
 };
 
-export default Filter;
+export default NavbarFilter;

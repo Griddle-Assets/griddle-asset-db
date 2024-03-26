@@ -1,5 +1,5 @@
 import { useForm, SubmitHandler } from 'react-hook-form';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import fetchClient from '@renderer/lib/fetch-client';
 
@@ -18,7 +18,7 @@ export default function NewAssetForm({ onSubmit }: NewAssetFormProps): JSX.Eleme
   const { register, handleSubmit } = useForm<FormData>();
 
    // Handle state for assetFiles and thumbnail file 
-   const [assetFiles, setAssetFiles] = React.useState<File[]>([]);
+   const [assetFiles, setAssetFiles] = useState<File[]>([]);
    const [thumbnailFile, setThumbnailFile] = useState<File | null>(null);
 
    // --------- Functions to handle asset file input/drop -----------------------
