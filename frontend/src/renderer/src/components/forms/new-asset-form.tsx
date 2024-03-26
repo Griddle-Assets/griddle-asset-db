@@ -3,19 +3,19 @@ import { useState } from 'react';
 
 import fetchClient from '@renderer/lib/fetch-client';
 
-interface FormData {
+export interface NewAssetFormData {
   assetName: string;
   keywords: string;
   assetFiles: File[];
   thumbnailFile: File;
 }
 
-interface NewAssetFormProps {
-  onSubmit: SubmitHandler<FormData>;
-}
-
-export default function NewAssetForm({ onSubmit }: NewAssetFormProps): JSX.Element {
-  const { register, handleSubmit } = useForm<FormData>();
+export default function NewAssetForm({
+  afterSubmit,
+}: {
+  afterSubmit: SubmitHandler<NewAssetFormData>;
+}) {
+  const { register, handleSubmit } = useForm<NewAssetFormData>();
 
   // Handle state for assetFiles and thumbnail file
   const [assetFiles, setAssetFiles] = useState<File[]>([]);
@@ -34,7 +34,7 @@ export default function NewAssetForm({ onSubmit }: NewAssetFormProps): JSX.Eleme
   };
 
   const handleRemoveAssetFile = (index: number) => {
-    setAssetFiles((prevFiles) => prevFiles.filter((file, i) => i !== index));
+    setAssetFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
   };
 
   // --------- Functions to handle thumbnail file input/drop -----------------------
@@ -54,7 +54,7 @@ export default function NewAssetForm({ onSubmit }: NewAssetFormProps): JSX.Eleme
   };
 
   // --------------------------------------------------------
-  const onSubmitForm = async (data: FormData) => {
+  const submitHandler = async (data: NewAssetFormData) => {
     // Calling fetchClient.POST()
     const { response, error } = await fetchClient.POST('/api/v1/assets/', {
       body: {
@@ -73,11 +73,11 @@ export default function NewAssetForm({ onSubmit }: NewAssetFormProps): JSX.Eleme
 
     // Combine assetFiles from state with form data
     const formDataWithFiles = { ...data, assetFiles };
-    onSubmit(formDataWithFiles); // Call the onSubmit function provided by props
+    afterSubmit(formDataWithFiles); // Call the onSubmit function provided by props
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmitForm)}>
+    <form onSubmit={handleSubmit(submitHandler)}>
       <div className="mt-4">
         <label htmlFor="assetName" className="block text-sm font-medium text-gray-700">
           Asset Name
