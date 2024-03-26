@@ -11,9 +11,10 @@ boto3 = "*"
 sqlalchemy = "*"
 psycopg2 = "*"
 python-multipart = "*"
+semver = "*"
 
 [dev-packages]
-boto3-stubs = "*"
+boto3-stubs = {extras = ["essential"], version = "*"}
 
 [requires]
 python_version = "3.10"

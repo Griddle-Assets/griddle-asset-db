@@ -1,10 +1,11 @@
 from typing import Annotated, List, Literal
-from fastapi import APIRouter, Body, Depends, HTTPException, UploadFile
+from fastapi import APIRouter, Body, Depends, File, Form, HTTPException, UploadFile
 from sqlalchemy.orm import Session
 
-from util.crud import create_asset
+from util.crud import create_asset, create_version
 from database.connection import get_db
 from schemas.models import Asset, AssetCreate, Version, VersionCreate
+from util.files import save_upload_file_tmp
 
 router = APIRouter(
     prefix="/assets",
@@ -96,10 +97,11 @@ async def get_asset_versions(
 @router.post("/{uuid}/versions", summary="Upload a new version for a given asset")
 async def new_asset_version(
     uuid: str,
-    version: VersionCreate,
-    file: UploadFile,
+    file: Annotated[UploadFile, File()],
+    is_major: Annotated[bool, Form()] = False,
     db: Session = Depends(get_db),
 ):
-    if uuid != test_uuid:
-        raise HTTPException(status_code=404, detail="Asset not found")
-    print(str(file))
+    if file.filename is None:
+        raise HTTPException(status_code=400, detail="File uploaded incorrectly")
+    file_path = save_upload_file_tmp(file)
+    create_version(db, uuid, file_path, is_major, "benfranklin")
