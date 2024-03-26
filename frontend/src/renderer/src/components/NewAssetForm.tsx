@@ -57,11 +57,17 @@ export default function NewAssetForm({ onSubmit }: NewAssetFormProps): JSX.Eleme
 
   // --------------------------------------------------------  
   const onSubmitForm = async (data: FormData) => {
-
-    // Calling fetchClient.POST()  
-    const {response, error} = await fetchClient.POST('/api/v1/assets/', {
-      body: {asset: {asset_name: data.assetName, keywords: data.keywords, image_url: data.thumbnailFile.path} },
-    }); 
+    // Calling fetchClient.POST()
+    const { response, error } = await fetchClient.POST('/api/v1/assets/', {
+      body: {
+        asset: {
+          asset_name: data.assetName,
+          keywords: data.keywords,
+          image_url: 'http://placekitten.com/400/400' // data.thumbnailFile.path,
+          // TODO: figure out thumb uploading.. maybe base64?
+        },
+      },
+    });
 
     if (error) throw error;
     if (!response.status.toString().startsWith('2'))
