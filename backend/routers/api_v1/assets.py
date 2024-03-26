@@ -77,6 +77,7 @@ async def put_asset(
     asset: AssetCreate,
     db: Session = Depends(get_db),
 ):
+    # TODO
     if uuid != test_uuid:
         raise HTTPException(status_code=404, detail="Asset not found")
     pass
@@ -89,6 +90,7 @@ async def get_asset_versions(
     offset: int = 0,
     db: Session = Depends(get_db),
 ) -> Sequence[Version]:
+    # TODO
     if uuid != test_uuid:
         raise HTTPException(status_code=404, detail="Asset not found")
     return [test_version]
