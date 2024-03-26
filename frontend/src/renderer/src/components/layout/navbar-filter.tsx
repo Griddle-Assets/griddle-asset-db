@@ -1,16 +1,21 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { CiFilter } from 'react-icons/ci';
 
-const Filter = ({ onApply }) => {
+export type AssetFilters = {
+  nameFilter: string;
+  contributorFilter: string;
+  keywordsFilter: string;
+  dateRange: { start: string; end: string };
+};
+
+const NavbarFilter = ({ onApply }: { onApply: (filters: AssetFilters) => void }) => {
   // States for filter criteria
   const [nameFilter, setNameFilter] = useState('');
   const [contributorFilter, setContributorFilter] = useState('');
   const [keywordsFilter, setKeywordsFilter] = useState('');
   const [dateRange, setDateRange] = useState({ start: '', end: '' });
 
-  // Handler for applying filters
   const applyFilters = () => {
-    // Call the provided onApply function with the current state values
     onApply({ nameFilter, contributorFilter, keywordsFilter, dateRange });
   };
 
@@ -66,7 +71,10 @@ const Filter = ({ onApply }) => {
           />
         </div>
         <li>
-          <button className="btn btn-outline btn-block shadow-md hover:shadow-lg transition-shadow duration-200 ease-in-out">
+          <button
+            onClick={applyFilters}
+            className="btn btn-outline btn-block shadow-md hover:shadow-lg transition-shadow duration-200 ease-in-out"
+          >
             Apply
           </button>
         </li>
@@ -75,4 +83,4 @@ const Filter = ({ onApply }) => {
   );
 };
 
-export default Filter;
+export default NavbarFilter;
