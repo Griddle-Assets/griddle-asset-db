@@ -1,9 +1,17 @@
 import Versions from './components/Versions';
+import NewAssetForm from './components/NewAssetForm';
 import fetchClient from './lib/fetch-client';
 import Metadata from './components/Metadata';
 
 import { useState } from 'react';
 import { Asset } from './types';
+
+interface MyFormData {
+  assetName: string;
+  keywords: string;
+  assetFiles: File[];
+  thumbnailFile: File | null;
+}
 
 function App(): JSX.Element {
   const [assets, setAssets] = useState<Asset[]>([]);
@@ -21,6 +29,11 @@ function App(): JSX.Element {
 
   const handleAssetClick = (asset: Asset) => {
     setSelectedAsset(asset);
+  };
+
+  const onSubmit = (data: MyFormData) => {
+    console.log('Form data:', data);
+    // Handle form submission logic here
   };
 
   return (
@@ -56,6 +69,7 @@ function App(): JSX.Element {
               </li>
             ))}
           </ul>
+          <NewAssetForm onSubmit={onSubmit} />
         </div>
         <div className="w-1/4">
           <Metadata asset={selectedAsset} />

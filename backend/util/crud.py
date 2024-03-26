@@ -16,7 +16,6 @@ def get_asset(db: Session, asset_id: str):
 
 def create_asset(db: Session, asset: AssetCreate, author_pennkey: str):
     db_asset = Asset(
-        id=uuid4(),
         asset_name=asset.asset_name,
         author_pennkey=author_pennkey,
         keywords=asset.keywords,
