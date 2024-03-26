@@ -1,12 +1,11 @@
 import { CiSearch } from 'react-icons/ci';
 
-import NavbarFilter from './navbar-filter';
+import NavbarFilter, { AssetFilters } from './navbar-filter';
 
 const Navbar = () => {
-  // Function to handle the application of filters
-  const handleApplyFilters = (filters) => {
+  const handleApplyFilters = (filters: AssetFilters) => {
     console.log('Applying filters:', filters);
-    // Implement the logic to filter your data based on the filters object
+    // TODO: Implement logic to filter your data based on the filters object
   };
 
   return (
