@@ -19,12 +19,12 @@ function HomeView(): JSX.Element {
 
   return (
     <>
-      <div className="w-screen h-screen max-h-screen min-w-[400px] overflow-clip grid grid-rows-[min-content_1fr]">
+      <div className="grid h-screen max-h-screen w-screen min-w-[400px] grid-rows-[min-content_1fr] overflow-clip">
         <Navbar />
         <div className="grid grid-cols-[minmax(160px,calc(min(25%,320px)))_minmax(0,1fr)_minmax(160px,calc(min(25%,320px)))]">
           <div className="relative border-r-[1px] border-base-content/20">
             {/* Asset explorer */}
-            <div className="absolute inset-0 py-4 px-6">
+            <div className="absolute inset-0 px-6 py-4">
               <p className="text-base-content/60">Explorer</p>
             </div>
           </div>
@@ -33,13 +33,13 @@ function HomeView(): JSX.Element {
             onClick={() => {
               setSelectedAssetId(null);
             }}
-            className="bg-base-200 relative"
+            className="relative bg-base-200"
           >
             {/* Main body (asset browser) */}
             {!!error && <p>Couldn&apos;t load assets!</p>}
             {!!isLoading && <p>loading...</p>}
             {!!assets && (
-              <ul className="absolute inset-0 overflow-y-auto py-4 px-6 grid gap-4 items-start grid-cols-[repeat(auto-fill,minmax(180px,1fr))]">
+              <ul className="absolute inset-0 grid grid-cols-[repeat(auto-fill,minmax(180px,1fr))] items-start gap-4 overflow-y-auto px-6 py-4">
                 {assets.map(({ id, asset_name, author_pennkey, image_uri }) => (
                   <li key={id}>
                     <button
@@ -49,11 +49,11 @@ function HomeView(): JSX.Element {
                         setSelectedAssetId(id);
                         console.log('set selected id:', id);
                       }}
-                      className={`w-full h-full shadow bg-base-100 p-4 rounded-2xl transition-shadow focus-visible:outline-none text-left ${id === selectedAssetId ? 'ring-2 ring-primary/60 focus-visible:outline-none focus-visible:ring-4' : 'ring-primary/40 focus-visible:ring-4'}`}
+                      className={`h-full w-full rounded-2xl bg-base-100 p-4 text-left shadow transition-shadow focus-visible:outline-none ${id === selectedAssetId ? 'ring-2 ring-primary/60 focus-visible:outline-none focus-visible:ring-4' : 'ring-primary/40 focus-visible:ring-4'}`}
                     >
                       <img
                         src={image_uri || funnygif}
-                        className="aspect-square rounded-lg bg-base-300 mb-2 w-full"
+                        className="mb-2 aspect-square w-full rounded-lg bg-base-300"
                       />
                       <div className="px-1">
                         {asset_name} -- {author_pennkey}

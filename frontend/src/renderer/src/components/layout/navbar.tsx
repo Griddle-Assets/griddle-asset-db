@@ -13,14 +13,14 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="navbar shadow-md border-black p-7 flex justify-between items-center select-none">
+    <nav className="navbar flex select-none items-center justify-between border-black p-7 shadow-md">
       {/* Logo Placeholder */}
       <div className="logo">
         <a className="btn btn-ghost text-xl">Griddle</a>
       </div>
 
       {/* Center Group */}
-      <div className="flex-grow flex justify-center items-center gap-x-4 ">
+      <div className="flex flex-grow items-center justify-center gap-x-4 ">
         {/* New Asset Button */}
         <Link className="btn btn-outline" to={'/new-asset'}>
           + New Asset
@@ -28,7 +28,7 @@ const Navbar = () => {
 
         {/* Search Bar */}
         <div className="form-control relative w-1/3">
-          <CiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 w-6 h-6 text-gray-500" />
+          <CiSearch className="absolute left-3 top-1/2 h-6 w-6 -translate-y-1/2 transform text-gray-500" />
           <input
             type="text"
             placeholder="Search assets..."
