@@ -29,7 +29,7 @@ def create_asset(db: Session, asset: AssetCreate, author_pennkey: str):
         asset_name=asset.asset_name,
         author_pennkey=author_pennkey,
         keywords=asset.keywords,
-        image_url=asset.image_url,
+        image_uri=asset.image_uri,
     )
     db.add(db_asset)
     db.commit()

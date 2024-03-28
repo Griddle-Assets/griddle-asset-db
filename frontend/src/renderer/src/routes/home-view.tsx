@@ -1,8 +1,11 @@
+import funnygif from '../assets/funny.gif';
+
 import { useMemo, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 
 import { useAssets } from '@renderer/hooks/api-hooks';
 
+import { Asset } from '@renderer/types';
 import Navbar from '../components/layout/navbar';
 import Metadata from '../components/metadata';
 
@@ -10,20 +13,14 @@ function HomeView(): JSX.Element {
   const { data: assets, error, isLoading } = useAssets();
   const [selectedAssetId, setSelectedAssetId] = useState<string | null>(null);
 
-  const selectedAsset = useMemo<{
-    asset_name: string;
-    keywords: string;
-    image_url: string | null;
-    id: string;
-    author_pennkey: string;
-  } | null>(() => {
+  const selectedAsset = useMemo<Asset | null>(() => {
     if (!assets || !selectedAssetId) return null;
     return assets.find(({ id }) => id === selectedAssetId) ?? null;
   }, [assets, selectedAssetId]);
 
   return (
     <>
-      <div className="w-full h-screen overflow-hidden flex flex-col min-w-[800px]">
+      <div className="w-screen h-screen absolute inset-0 min-w-[800px] overflow-clip">
         <Navbar />
         <div className="grid flex-grow grid-cols-[minmax(min-content,calc(min(25%,320px)))_minmax(min-content,1fr)_minmax(min-content,calc(min(25%,320px)))]">
           <div className="border-r-[1px] border-base-content/20 py-4 px-6">
@@ -35,14 +32,14 @@ function HomeView(): JSX.Element {
             onClick={() => {
               setSelectedAssetId(null);
             }}
-            className="py-4 px-6 bg-base-200"
+            className="py-4 px-6 bg-base-200 overflow-y-auto"
           >
             {/* Main body (asset browser) */}
             {error && <p>Couldn&apos;t load assets!</p>}
             {isLoading && <p>loading...</p>}
             {assets && (
-              <ul className="grid grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
-                {assets.map(({ id, asset_name, author_pennkey, image_url }) => (
+              <ul className="grid grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4">
+                {assets.map(({ id, asset_name, author_pennkey, image_uri }) => (
                   <li key={id}>
                     <button
                       type="button"
@@ -51,10 +48,10 @@ function HomeView(): JSX.Element {
                         setSelectedAssetId(id);
                         console.log('set selected id:', id);
                       }}
-                      className={`shadow bg-base-100 p-4 rounded-2xl transition-shadow focus-visible:outline-none ${id === selectedAssetId ? 'ring-2 ring-primary/60 focus-visible:outline-none focus-visible:ring-4' : 'ring-primary/40 focus-visible:ring-4'}`}
+                      className={`w-full h-full shadow bg-base-100 p-4 rounded-2xl transition-shadow focus-visible:outline-none ${id === selectedAssetId ? 'ring-2 ring-primary/60 focus-visible:outline-none focus-visible:ring-4' : 'ring-primary/40 focus-visible:ring-4'}`}
                     >
                       <img
-                        src={image_url || 'http://placekitten.com/400/400'}
+                        src={image_uri || funnygif}
                         className="aspect-square rounded-lg bg-base-300 mb-2"
                       />
                       <div className="px-1">

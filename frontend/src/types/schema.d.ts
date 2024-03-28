@@ -49,8 +49,8 @@ export interface components {
       asset_name: string;
       /** Keywords */
       keywords: string;
-      /** Image Url */
-      image_url: string | null;
+      /** Image Uri */
+      image_uri: string | null;
       /**
        * Id
        * Format: uuid
@@ -65,8 +65,8 @@ export interface components {
       asset_name: string;
       /** Keywords */
       keywords: string;
-      /** Image Url */
-      image_url: string | null;
+      /** Image Uri */
+      image_uri: string | null;
     };
     /** Body_new_asset_version_api_v1_assets__uuid__versions_post */
     Body_new_asset_version_api_v1_assets__uuid__versions_post: {
