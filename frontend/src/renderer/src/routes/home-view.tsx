@@ -3,14 +3,13 @@ import funnygif from '../assets/funny.gif';
 import { useMemo, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 
-import { useAssets } from '@renderer/hooks/api-hooks';
-
 import { Asset } from '@renderer/types';
 import Navbar from '../components/layout/navbar';
 import Metadata from '../components/metadata';
+import { useAssetsSearch } from '@renderer/hooks/use-assets-search';
 
 function HomeView(): JSX.Element {
-  const { data: assets, error, isLoading } = useAssets();
+  const { assets, error, isLoading } = useAssetsSearch();
   const [selectedAssetId, setSelectedAssetId] = useState<string | null>(null);
 
   const selectedAsset = useMemo<Asset | null>(() => {
@@ -37,9 +36,9 @@ function HomeView(): JSX.Element {
             className="bg-base-200 relative"
           >
             {/* Main body (asset browser) */}
-            {error && <p>Couldn&apos;t load assets!</p>}
-            {isLoading && <p>loading...</p>}
-            {assets && (
+            {!!error && <p>Couldn&apos;t load assets!</p>}
+            {!!isLoading && <p>loading...</p>}
+            {!!assets && (
               <ul className="absolute inset-0 overflow-y-auto py-4 px-6 grid gap-4 items-start grid-cols-[repeat(auto-fill,minmax(180px,1fr))]">
                 {assets.map(({ id, asset_name, author_pennkey, image_uri }) => (
                   <li key={id}>

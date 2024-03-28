@@ -1,6 +1,7 @@
-import { useForm, SubmitHandler } from 'react-hook-form';
 import { useState } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
 
+import { useAssetsSearchRefetch } from '@renderer/hooks/use-assets-search';
 import fetchClient from '@renderer/lib/fetch-client';
 
 export interface NewAssetFormData {
@@ -15,6 +16,7 @@ export default function NewAssetForm({
 }: {
   afterSubmit?: SubmitHandler<NewAssetFormData>;
 }) {
+  const refetchSearch = useAssetsSearchRefetch();
   const { register, handleSubmit } = useForm<NewAssetFormData>();
 
   // Handle state for assetFiles and thumbnail file
@@ -69,6 +71,8 @@ export default function NewAssetForm({
     if (error) throw error;
     if (!response.status.toString().startsWith('2'))
       throw new Error(`Non-OK response with code ${response.status}: ${response.statusText}`);
+
+    refetchSearch();
 
     // Combine assetFiles from state with form data
     const formDataWithFiles = { ...data, assetFiles };

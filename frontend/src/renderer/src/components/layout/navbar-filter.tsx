@@ -20,7 +20,7 @@ const NavbarFilter = ({ onApply }: { onApply: (filters: AssetFilters) => void })
   };
 
   return (
-    <div className="dropdown dropdown-end">
+    <div className="dropdown dropdown-end z-10">
       <label tabIndex={0} className="btn btn-outline flex items-center gap-2">
         <CiFilter className="w-6 h-6" />
         Filter

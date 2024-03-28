@@ -2,8 +2,11 @@ import { CiSearch } from 'react-icons/ci';
 
 import NavbarFilter, { AssetFilters } from './navbar-filter';
 import { Link } from 'react-router-dom';
+import { useSearchParamsStore } from '@renderer/hooks/use-assets-search';
 
 const Navbar = () => {
+  const { search, setSearch } = useSearchParamsStore();
+
   const handleApplyFilters = (filters: AssetFilters) => {
     console.log('Applying filters:', filters);
     // TODO: Implement logic to filter your data based on the filters object
@@ -30,6 +33,8 @@ const Navbar = () => {
             type="text"
             placeholder="Search assets..."
             className="input input-bordered pl-10 pr-4" // Adjust padding to ensure icon and text do not overlap
+            value={search}
+            onChange={(evt) => setSearch(evt.target.value)}
           />
         </div>
 
