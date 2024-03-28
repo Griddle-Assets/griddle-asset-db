@@ -6,7 +6,7 @@ from pydantic import BaseModel
 class AssetBase(BaseModel):
     asset_name: str
     keywords: str
-    image_url: Optional[str]
+    image_uri: Optional[str]
 
 
 class AssetCreate(AssetBase):

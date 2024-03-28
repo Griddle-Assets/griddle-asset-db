@@ -22,7 +22,7 @@ function Metadata({ asset }: Props): JSX.Element {
       <div>Name: {asset.asset_name}</div>
       <div>Keywords: {asset.keywords}</div>
       <div>Author: {asset.author_pennkey}</div>
-      {asset.image_url && <img src={asset.image_url} alt={asset.asset_name} />}
+      {asset.image_uri && <img src={asset.image_uri} alt={asset.asset_name} />}
     </div>
   );
 }

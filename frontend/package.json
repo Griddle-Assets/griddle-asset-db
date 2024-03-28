@@ -35,6 +35,7 @@
     "@types/node": "^18.19.9",
     "@types/react": "^18.2.48",
     "@types/react-dom": "^18.2.18",
+    "@uidotdev/usehooks": "^2.4.1",
     "@vitejs/plugin-react": "^4.2.1",
     "autoprefixer": "^10.4.19",
     "daisyui": "^4.7.3",
@@ -48,12 +49,14 @@
     "openapi-typescript": "^6.7.5",
     "postcss": "^8.4.38",
     "prettier": "^3.2.4",
+    "prettier-plugin-tailwindcss": "^0.5.13",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.22.3",
     "swr": "^2.2.5",
     "tailwindcss": "^3.4.1",
     "typescript": "^5.3.3",
-    "vite": "^5.0.12"
+    "vite": "^5.0.12",
+    "zustand": "^4.5.2"
   }
 }

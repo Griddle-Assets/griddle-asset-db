@@ -1,48 +1,46 @@
+import funnygif from '../assets/funny.gif';
+
 import { useMemo, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 
-import { useAssets } from '@renderer/hooks/api-hooks';
-
+import { Asset } from '@renderer/types';
 import Navbar from '../components/layout/navbar';
 import Metadata from '../components/metadata';
+import { useAssetsSearch } from '@renderer/hooks/use-assets-search';
 
 function HomeView(): JSX.Element {
-  const { data: assets, error, isLoading } = useAssets();
+  const { assets, error, isLoading } = useAssetsSearch();
   const [selectedAssetId, setSelectedAssetId] = useState<string | null>(null);
 
-  const selectedAsset = useMemo<{
-    asset_name: string;
-    keywords: string;
-    image_url: string | null;
-    id: string;
-    author_pennkey: string;
-  } | null>(() => {
+  const selectedAsset = useMemo<Asset | null>(() => {
     if (!assets || !selectedAssetId) return null;
     return assets.find(({ id }) => id === selectedAssetId) ?? null;
   }, [assets, selectedAssetId]);
 
   return (
     <>
-      <div className="w-full h-screen overflow-hidden flex flex-col min-w-[800px]">
+      <div className="grid h-screen max-h-screen w-screen min-w-[400px] grid-rows-[min-content_1fr] overflow-clip">
         <Navbar />
-        <div className="grid flex-grow grid-cols-[minmax(min-content,calc(min(25%,320px)))_minmax(min-content,1fr)_minmax(min-content,calc(min(25%,320px)))]">
-          <div className="border-r-[1px] border-base-content/20 py-4 px-6">
+        <div className="grid grid-cols-[minmax(160px,calc(min(25%,320px)))_minmax(0,1fr)_minmax(160px,calc(min(25%,320px)))]">
+          <div className="relative border-r-[1px] border-base-content/20">
             {/* Asset explorer */}
-            <p className="text-base-content/60">Explorer</p>
+            <div className="absolute inset-0 px-6 py-4">
+              <p className="text-base-content/60">Explorer</p>
+            </div>
           </div>
           {/* Main body */}
           <div
             onClick={() => {
               setSelectedAssetId(null);
             }}
-            className="py-4 px-6 bg-base-200"
+            className="relative bg-base-200"
           >
             {/* Main body (asset browser) */}
-            {error && <p>Couldn&apos;t load assets!</p>}
-            {isLoading && <p>loading...</p>}
-            {assets && (
-              <ul className="grid grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
-                {assets.map(({ id, asset_name, author_pennkey, image_url }) => (
+            {!!error && <p>Couldn&apos;t load assets!</p>}
+            {!!isLoading && <p>loading...</p>}
+            {!!assets && (
+              <ul className="absolute inset-0 grid grid-cols-[repeat(auto-fill,minmax(180px,1fr))] items-start gap-4 overflow-y-auto px-6 py-4">
+                {assets.map(({ id, asset_name, author_pennkey, image_uri }) => (
                   <li key={id}>
                     <button
                       type="button"
@@ -51,11 +49,11 @@ function HomeView(): JSX.Element {
                         setSelectedAssetId(id);
                         console.log('set selected id:', id);
                       }}
-                      className={`shadow bg-base-100 p-4 rounded-2xl transition-shadow focus-visible:outline-none ${id === selectedAssetId ? 'ring-2 ring-primary/60 focus-visible:outline-none focus-visible:ring-4' : 'ring-primary/40 focus-visible:ring-4'}`}
+                      className={`h-full w-full rounded-2xl bg-base-100 p-4 text-left shadow transition-shadow focus-visible:outline-none ${id === selectedAssetId ? 'ring-2 ring-primary/60 focus-visible:outline-none focus-visible:ring-4' : 'ring-primary/40 focus-visible:ring-4'}`}
                     >
                       <img
-                        src={image_url || 'http://placekitten.com/400/400'}
-                        className="aspect-square rounded-lg bg-base-300 mb-2"
+                        src={image_uri || funnygif}
+                        className="mb-2 aspect-square w-full rounded-lg bg-base-300"
                       />
                       <div className="px-1">
                         {asset_name} -- {author_pennkey}
@@ -66,9 +64,11 @@ function HomeView(): JSX.Element {
               </ul>
             )}
           </div>
-          <div className="border-l-[1px] border-base-content/20 px-6 py-4">
-            {/* Asset metadata panel */}
-            {selectedAsset && <Metadata asset={selectedAsset} />}
+          <div className="relative border-l-[1px] border-base-content/20">
+            <div className="absolute inset-0 px-6 py-4">
+              {/* Asset metadata panel */}
+              {selectedAsset && <Metadata asset={selectedAsset} />}
+            </div>
           </div>
         </div>
       </div>
